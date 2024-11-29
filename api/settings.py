@@ -136,7 +136,6 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
-
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Media Files Configuration
@@ -154,22 +153,3 @@ MEDIA_URL = f'https://{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com/'
 
 # Optional: Make media files publicly accessible
 AWS_QUERYSTRING_AUTH = False  # Set to False for public access
-
-# Media Files Configuration using Bucketeer
-STORAGES = {
-    # Static files storage (using Whitenoise for local files)
-    'staticfiles': {
-        'BACKEND': 'whitenoise.storage.CompressedManifestStaticFilesStorage',
-    },
-    # Media files storage (using Bucketeer)
-    'default': {
-        'BACKEND': 'storages.backends.s3boto3.S3Boto3Storage',
-        'OPTIONS': {
-            'access_key': AWS_ACCESS_KEY_ID,  # Bucketeer Access Key
-            'secret_key': AWS_SECRET_ACCESS_KEY,  # Bucketeer Secret Key
-            'bucket_name': AWS_STORAGE_BUCKET_NAME,  # Bucketeer Bucket Name
-            'region_name': AWS_S3_REGION_NAME,  # Bucketeer Region
-            'endpoint_url': AWS_S3_ENDPOINT_URL,
-        },
-    },
-}
