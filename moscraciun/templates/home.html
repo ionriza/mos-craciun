@@ -1,0 +1,223 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Mos Craciun 2024</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css">
+    <link rel="icon" type="image/x-icon" href="{% static 'favicon.ico' %}">
+
+    <script defer src="https://use.fontawesome.com/releases/v5.15.4/js/all.js"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+
+<!-- Hero Section -->
+<section class="hero is-medium">
+    <div class="hero-body">
+        <div class="container">
+            <h1 class="title is-1 has-text-centered has-text-white">🎅 Lista Mosului 2024 🎁</h1>
+            <p class="subtitle is-4 has-text-centered has-text-white">Ajuta-ne sa facem un copil fericit de acest Craciun!</p>
+        </div>
+    </div>
+</section>
+
+<!-- Donation Section -->
+<section class="section">
+  <div class="container">
+    <div class="box has-text-centered">
+      <h2 class="title is-3">Donați pentru a aduce bucurie de Crăciun! 🎄</h2>
+      <p class="subtitle is-5">
+        Ajutați-ne să facem sărbătorile mai fericite pentru copiii care au scris aceste scrisori. Puteți face o donație rapidă prin Revolut.
+      </p>
+      <a href="https://revolut.me/ionr6yt" class="button is-primary is-large mt-4">
+        Donează acum prin Revolut 📲
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Wish List Section -->
+<section class="section">
+    <div class="container">
+
+        {% if messages %}
+        <div class="container">
+            {% for message in messages %}
+            <div class="notification is-success">
+                <button class="delete"></button>
+                {{ message }}
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <h2 class="title is-2 has-text-centered">Scrisorile copiilor</h2>
+        <h3 class="subtitle is-4 has-text-centered">
+            {% if not_applied_count == 0 %}
+            Toate scrisorile au fost date, insa poti ajuta cu o donatie!
+            {% elif not_applied_count == 1 %}
+            Fii tu Mos Craciun pentru ultima scrisoare! 🎅
+            {% else %}
+            {{ not_applied_count }} scrisori inca il asteapta pe Mos Craciun 🎅
+            {% endif %}
+        </h3>
+        <div class="columns is-multiline">
+            {% for wishing in wishings %}
+            <div class="column is-mobile">
+                <div class="wish-card card"
+                     style="position: relative; {% if wishing.status != 'NOT_APPLIED' %}opacity: 0.5; pointer-events: none;{% endif %}">
+                    <!-- Gray overlay for disabled card -->
+                    {% if wishing.status != 'NOT_APPLIED' %}
+                    <div class="overlay"
+                         style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); z-index: 1;"></div>
+                    {% endif %}
+
+                    <div class="card-image" style="position: relative; z-index: 2;">
+                        <figure class="image">
+                            {% if wishing.image %}
+                            <img src="{{ wishing.image.url }}" alt="{{ wishing.name }}'s Letter">
+                            {% else %}
+                            <img src="https://via.placeholder.com/150" alt="Placeholder Image">
+                            {% endif %}
+                        </figure>
+                    </div>
+
+                    <div class="card-content" style="position: relative; z-index: 2;">
+                        <p class="title is-4">
+                            {{ wishing.name }}
+                            <span class="icon">
+                              {% if wishing.gender == 'M' %}
+                                👦
+                              {% else %}
+                                👧
+                              {% endif %}
+                            </span>
+                        </p>
+                        <p class="subtitle is-6">Varsta: {{ wishing.age }}</p>
+                        <p><strong>Isi doreste:</strong></p>
+                        <ul>
+                            {% for item in wishing.wishing_items_list %}
+                            <li><span class="icon">🎁</span>{{ item }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+
+                    <!-- Footer with disabled button for APPLIED/CONFIRMED -->
+                    <footer class="card-footer" style="position: relative; z-index: 2;">
+                        <a href="#"
+                           class="card-footer-item button is-primary {% if wishing.status != 'NOT_APPLIED' %}is-disabled{% endif %} js-modal-trigger"
+                           data-target="modal-form-{{ wishing.id }}">
+                            FII MOS CRACIUN 🎅
+                        </a>
+                    </footer>
+                </div>
+            </div>
+
+            <!-- Modal -->
+            <div id="modal-{{ wishing.id }}" class="modal">
+                <div class="modal-background"></div>
+                <div class="modal-content">
+                    <figure class="image">
+                        {% if wishing.image %}
+                        <img src="{{ wishing.image.url }}" alt="{{ wishing.name }}'s Letter">
+                        {% endif %}
+                    </figure>
+                </div>
+                <button class="modal-close is-large" aria-label="close"></button>
+            </div>
+
+            <!-- Confirmation form Modal-->
+            <div id="modal-form-{{ wishing.id }}" class="modal">
+                <div class="modal-background"></div>
+                <div class="modal-card">
+                    <header class="modal-card-head">
+                        <p class="modal-card-title">Become a Santa for {{ wishing.name }}</p>
+                        <button class="delete modal-close" aria-label="close"></button>
+                    </header>
+                    <form action="{% url 'become_santa' wishing.id %}" method="post" class="modal-card-body">
+                        {% csrf_token %}
+                        <div class="field">
+                            <label class="label">Nume</label>
+                            <div class="control">
+                                <input class="input" type="text" name="name" placeholder="Numele tau" required>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">Numar de telefon</label>
+                            <div class="control">
+                                <input class="input" type="tel" name="phone_number" placeholder="Numar de telefon"
+                                       required>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">Adresa mail</label>
+                            <div class="control">
+                                <input class="input" type="email" name="email" placeholder="Adresa mail"
+                                       required>
+                            </div>
+                        </div>
+                        <footer class="modal-card-foot">
+                            <button type="submit" class="button is-success">Fii Mos Craciun</button>
+                        </footer>
+                    </form>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="box has-text-centered">
+      <h2 class="title is-3">O experiență de neuitat pentru copii la karting! 🏎️</h2>
+      <p class="subtitle is-5">
+        În cadrul inițiativei noastre de Crăciun, copiii care au trimis scrisori către Moș Crăciun vor avea ocazia să participe la o aventură de neuitat la
+        <a href="https://vmaxromexpo.ro/" target="_blank">Vmax Karting Romexpo</a>.
+      </p>
+      <p class="subtitle is-5">
+        Vom organiza o zi plină de distracție, unde copiii vor:
+      </p>
+      <ul class="has-text-left is-size-5" style="display: inline-block; text-align: left;">
+        <li>🏎️ Se vor întrece pe pistă și vor experimenta emoția curselor de karting.</li>
+        <li>🍔 Vor savura burgeri delicioși, pizza proaspăt preparată și băuturi răcoritoare.</li>
+        <li>🎉 Vor crea amintiri de neuitat alături de prietenii lor.</li>
+      </ul>
+      <p class="subtitle is-5 mt-4">
+        Ajutați-ne să transformăm această zi într-o experiență de vis pentru acești copii! 🙌
+      </p>
+      <button class="button is-primary is-large mt-4">
+        Aflați mai multe despre eveniment
+      </button>
+    </div>
+  </div>
+</section>
+
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="content has-text-centered">
+    <p class="is-size-5">
+      🎄 Acest site a fost creat cu drag de Ion, folosind următoarele tehnologii:
+    </p>
+    <p class="is-size-5">
+      - <a href="https://www.djangoproject.com/" target="_blank" class="has-text-primary">Django</a> 🐍 <br>
+      - <a href="https://bulma.io/" target="_blank" class="has-text-primary">Bulma CSS</a> 🎨 <br>
+      - <a href="https://vercel.com/" target="_blank" class="has-text-primary">Vercel</a> 🚀 <br>
+      - <a href="https://openai.com/chatgpt" target="_blank" class="has-text-primary">ChatGPT</a> 🤖
+    </p>
+    <p class="is-size-6 mt-3">
+      Mulțumim pentru vizită și vă dorim sărbători fericite! 🎅🎁🎄
+    </p>
+  </div>
+</footer>
+
+
+<!-- JavaScript to Handle Modals -->
+<script src="{% static 'js/scripts.js' %}"></script>
+
+</body>
+</html>

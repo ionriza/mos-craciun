@@ -1,0 +1,46 @@
+.hero {
+  background-image: url('https://images.unsplash.com/photo-1481481525014-91e77115eace');
+  background-size: cover;
+  background-position: center;
+  color: white;
+}
+
+.hero-body {
+  backdrop-filter: brightness(0.8);
+}
+
+.columns {
+    display: flex; /* Enable flexbox for columns */
+    flex-wrap: wrap; /* Allow wrapping if cards overflow */
+    gap: 1rem; /* Optional: Space between cards */
+}
+
+.wish-card {
+    display: flex; /* Make the card a flex container */
+    flex-direction: column; /* Ensure content flows vertically */
+    flex-grow: 1; /* Allow cards to stretch evenly */
+    height: 100%; /* Ensure cards are full height within columns */
+}
+
+.wish-card .card-content {
+flex-grow: 1; /* Allow card content to stretch */
+}
+
+.wish-card .card-footer {
+margin-top: auto; /* Push footer to the bottom */
+}
+
+.modal img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Modal fix */
+.modal {
+  display: none; /* Hidden by default */
+}
+
+.modal.is-active {
+  display: flex; /* Flex to position modal content */
+  z-index: 1050; /* Ensure modal appears above other content */
+}
