@@ -141,15 +141,18 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Media Files Configuration
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
-# Bucketeer Configuration
-AWS_ACCESS_KEY_ID = get_env_variable('BUCKETEER_AWS_ACCESS_KEY_ID')  # Access key from Bucketeer
-AWS_SECRET_ACCESS_KEY = get_env_variable('BUCKETEER_AWS_SECRET_ACCESS_KEY')  # Secret key from Bucketeer
-AWS_STORAGE_BUCKET_NAME = get_env_variable('BUCKETEER_BUCKET_NAME')  # Bucket name from Bucketeer
-AWS_S3_REGION_NAME = get_env_variable('BUCKETEER_AWS_REGION', default='us-east-1')  # Default region for Bucketeer
-AWS_S3_ENDPOINT_URL = f'https://{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'
+# Cloudcube-specific environment variables
+CLOUDCUBE_URL = get_env_variable('CLOUDCUBE_URL')  # Provided by Heroku's Cloudcube add-on
+AWS_ACCESS_KEY_ID = get_env_variable('CLOUDCUBE_ACCESS_KEY_ID')  # Your Cloudcube Access Key
+AWS_SECRET_ACCESS_KEY = get_env_variable('CLOUDCUBE_SECRET_ACCESS_KEY')  # Your Cloudcube Secret Key
 
-# Media URL for accessing files
-MEDIA_URL = f'https://{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com/'
+# Parse the Cloudcube URL
+CLOUDCUBE_BUCKET_NAME = CLOUDCUBE_URL.split('/')[-2]  # Extract bucket name from URL
+CLOUDCUBE_MEDIA_ROOT = CLOUDCUBE_URL.split('/')[-1]   # Extract folder prefix from URL
+AWS_STORAGE_BUCKET_NAME = CLOUDCUBE_BUCKET_NAME
 
-# Optional: Make media files publicly accessible
-AWS_QUERYSTRING_AUTH = False  # Set to False for public access
+AWS_S3_ENDPOINT_URL = 'https://s3.amazonaws.com'  # S3 default endpoint for Cloudcube
+AWS_QUERYSTRING_AUTH = False  # Set to False if you want public URLs for media files
+
+# Media URL configuration
+MEDIA_URL = f'{CLOUDCUBE_URL}/'
