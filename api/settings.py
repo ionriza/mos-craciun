@@ -39,7 +39,6 @@ DEBUG = get_env_variable('DEBUG', 'False') == 'True'
 
 ALLOWED_HOSTS = get_env_variable('ALLOWED_HOSTS', '').split(',')
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -83,7 +82,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'api.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
@@ -91,7 +89,6 @@ WSGI_APPLICATION = 'api.wsgi.application'
 DATABASES = {
     'default': dj_database_url.parse(get_env_variable('DATABASE_URL', default="sqlite:///db.sqlite3"))
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
@@ -111,7 +108,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
 
@@ -122,9 +118,6 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 
 USE_TZ = True
-
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
@@ -138,21 +131,44 @@ STATICFILES_DIRS = [BASE_DIR / "static"]
 # Directory where static files will be collected for production (e.g., during `collectstatic`)
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
-STORAGES = {
-    # ...
-    "staticfiles": {
-        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
-    },
-    # Default storage backend for media files
-    'default': {
-        'BACKEND': 'django.core.files.storage.FileSystemStorage',
-        'OPTIONS': {
-            'location': MEDIA_ROOT,
-        },
-    },
-}
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Media Files Configuration
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+
+# Bucketeer Configuration
+AWS_ACCESS_KEY_ID = get_env_variable('BUCKETEER_AWS_ACCESS_KEY_ID')  # Access key from Bucketeer
+AWS_SECRET_ACCESS_KEY = get_env_variable('BUCKETEER_AWS_SECRET_ACCESS_KEY')  # Secret key from Bucketeer
+AWS_STORAGE_BUCKET_NAME = get_env_variable('BUCKETEER_BUCKET_NAME')  # Bucket name from Bucketeer
+AWS_S3_REGION_NAME = get_env_variable('BUCKETEER_AWS_REGION', default='us-east-1')  # Default region for Bucketeer
+AWS_S3_ENDPOINT_URL = f'https://{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'
+
+# Media URL for accessing files
+MEDIA_URL = f'https://{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com/'
+
+# Optional: Make media files publicly accessible
+AWS_QUERYSTRING_AUTH = False  # Set to False for public access
+
+# Media Files Configuration using Bucketeer
+STORAGES = {
+    # Static files storage (using Whitenoise for local files)
+    'staticfiles': {
+        'BACKEND': 'whitenoise.storage.CompressedManifestStaticFilesStorage',
+    },
+    # Media files storage (using Bucketeer)
+    'default': {
+        'BACKEND': 'storages.backends.s3boto3.S3Boto3Storage',
+        'OPTIONS': {
+            'access_key': AWS_ACCESS_KEY_ID,  # Bucketeer Access Key
+            'secret_key': AWS_SECRET_ACCESS_KEY,  # Bucketeer Secret Key
+            'bucket_name': AWS_STORAGE_BUCKET_NAME,  # Bucketeer Bucket Name
+            'region_name': AWS_S3_REGION_NAME,  # Bucketeer Region
+            'endpoint_url': AWS_S3_ENDPOINT_URL,
+        },
+    },
+}
