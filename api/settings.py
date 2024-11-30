@@ -138,23 +138,27 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# Media files storage using Bucketeer
-DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+# Media Files Configuration using Bucketeer
+STORAGES = {
+    # Static files storage (using Whitenoise for local files)
+    'staticfiles': {
+        'BACKEND': 'whitenoise.storage.CompressedManifestStaticFilesStorage',
+    },
+    # Media files storage (using Bucketeer)
+    'default': {
+        'BACKEND': 'storages.backends.s3boto3.S3Boto3Storage',
+        'OPTIONS': {
+            'access_key': get_env_variable('BUCKETEER_AWS_ACCESS_KEY_ID'),  # Bucketeer Access Key
+            'secret_key': get_env_variable('BUCKETEER_AWS_SECRET_ACCESS_KEY'),  # Bucketeer Secret Key
+            'bucket_name': get_env_variable('BUCKETEER_BUCKET_NAME'),  # Bucketeer Bucket Name
+            'region_name': get_env_variable('BUCKETEER_AWS_REGION', default='eu-west-1'),  # Bucketeer Region
+            'endpoint_url': f"https://{get_env_variable('BUCKETEER_BUCKET_NAME')}.s3.amazonaws.com",
+        },
+    },
+}
 
-# Bucketeer Configuration
-BUCKETEER_URL = get_env_variable('BUCKETEER_URL')  # Provided by Heroku Bucketeer Add-on
-AWS_ACCESS_KEY_ID = get_env_variable('BUCKETEER_AWS_ACCESS_KEY_ID')  # Bucketeer Access Key
-AWS_SECRET_ACCESS_KEY = get_env_variable('BUCKETEER_AWS_SECRET_ACCESS_KEY')  # Bucketeer Secret Key
+# Media URL for accessing files
+MEDIA_URL = f"https://{get_env_variable('BUCKETEER_BUCKET_NAME')}.s3.amazonaws.com/"
 
-# Parse the BUCKETEER_URL for the bucket name and prefix
-AWS_STORAGE_BUCKET_NAME = BUCKETEER_URL.split('/')[-2]  # Extract bucket name
-BUCKETEER_PREFIX = BUCKETEER_URL.split('/')[-1]  # Extract prefix (optional)
-
-# Bucketeer endpoint
-AWS_S3_ENDPOINT_URL = 'https://s3.amazonaws.com'
-
-# Media file URL
-MEDIA_URL = f"{BUCKETEER_URL}/"
-
-# Optional: Disable signed URLs (for public file access)
-AWS_QUERYSTRING_AUTH = False
+# Optional: Make media files publicly accessible
+AWS_QUERYSTRING_AUTH = False  # Set to False for public access
