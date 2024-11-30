@@ -150,7 +150,7 @@ STORAGES = {
         'OPTIONS': {
             'access_key': get_env_variable('BUCKETEER_AWS_ACCESS_KEY_ID'),  # Bucketeer Access Key
             'secret_key': get_env_variable('BUCKETEER_AWS_SECRET_ACCESS_KEY'),  # Bucketeer Secret Key
-            'bucket_name': get_env_variable('BUCKETEER_BUCKET_NAME'),  # Bucketeer Bucket Name
+            'bucket_name': '',  # Bucketeer Bucket Name
             'region_name': get_env_variable('BUCKETEER_AWS_REGION', default='eu-west-1'),  # Bucketeer Region
             'endpoint_url': f'https://{get_env_variable('BUCKETEER_BUCKET_NAME')}.s3-eu-west-1.amazonaws.com/',
         },
