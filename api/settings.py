@@ -152,13 +152,13 @@ STORAGES = {
             'secret_key': get_env_variable('BUCKETEER_AWS_SECRET_ACCESS_KEY'),  # Bucketeer Secret Key
             'bucket_name': get_env_variable('BUCKETEER_BUCKET_NAME'),  # Bucketeer Bucket Name
             'region_name': get_env_variable('BUCKETEER_AWS_REGION', default='eu-west-1'),  # Bucketeer Region
-            'endpoint_url': 'https://s3.amazonaws.com',
+            'endpoint_url': f'https://{get_env_variable('BUCKETEER_BUCKET_NAME')}.s3-eu-west-1.amazonaws.com/',
         },
     },
 }
 
 # Media URL for accessing files
-MEDIA_URL = f"https://{get_env_variable('BUCKETEER_BUCKET_NAME')}.s3.amazonaws.com/"
+MEDIA_URL = f"https://{get_env_variable('BUCKETEER_BUCKET_NAME')}.s3-eu-west-1.amazonaws.com/"
 
 # Optional: Make media files publicly accessible
 AWS_QUERYSTRING_AUTH = False  # Set to False for public access
