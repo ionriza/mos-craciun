@@ -119,7 +119,7 @@
                 <div class="modal-background"></div>
                 <div class="modal-card">
                     <header class="modal-card-head">
-                        <p class="modal-card-title">Become a Santa for {{ wishing.name }}</p>
+                        <p class="modal-card-title">Fii Mos Craciun pentru {{ wishing.name }}</p>
                         <button class="delete modal-close" aria-label="close"></button>
                     </header>
                     <form action="{% url 'become_santa' wishing.id %}" method="post" class="modal-card-body">
@@ -181,22 +181,20 @@
   </div>
 </section>
 
-
 <!-- Footer -->
-<footer class="footer">
+<footer class="footer has-background-light">
   <div class="content has-text-centered">
-    <p class="is-size-5">
-      🎄 Acest site a fost creat cu drag de Ion, folosind următoarele tehnologii:
+    <p>
+      <strong>Creat cu drag</strong> de Ion 🎅 folosind
+      <a href="https://www.djangoproject.com/" target="_blank">Django</a> 🐍 <br>,
+      <a href="https://bulma.io/" target="_blank">Bulma CSS</a> 🎨 <br> și găzduit pe
+      <a href="https://heroku.com/" target="_blank">Heroku</a>. 🏡
     </p>
-    <p class="is-size-5">
-      - <a href="https://www.djangoproject.com/" target="_blank" class="has-text-primary">Django</a> 🐍 <br>
-      - <a href="https://bulma.io/" target="_blank" class="has-text-primary">Bulma CSS</a> 🎨 <br>
-      - <a href="https://vercel.com/" target="_blank" class="has-text-primary">Vercel</a> 🚀 <br>
-      - <a href="https://openai.com/chatgpt" target="_blank" class="has-text-primary">ChatGPT</a> 🤖
+    <p>
+      Asistență oferită de
+      <a href="https://openai.com/chatgpt/" target="_blank">ChatGPT</a> 🤖 pentru idei creative și cod.
     </p>
-    <p class="is-size-6 mt-3">
-      Mulțumim pentru vizită și vă dorim sărbători fericite! 🎅🎁🎄
-    </p>
+    <p>🎄 Sărbători fericite! 🎁</p>
   </div>
 </footer>
 
