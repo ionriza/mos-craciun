@@ -19,7 +19,8 @@
     <div class="hero-body">
         <div class="container">
             <h1 class="title is-1 has-text-centered has-text-white">🎅 Lista Mosului 2024 🎁</h1>
-            <p class="subtitle is-4 has-text-centered has-text-white">Ajuta-ne sa facem un copil fericit de acest Craciun!</p>
+            <p class="subtitle is-4 has-text-centered has-text-white">Ajuta-ne sa facem un copil fericit de acest
+                Craciun!</p>
         </div>
     </div>
 </section>
@@ -31,8 +32,7 @@
         {% if messages %}
         <div class="container">
             {% for message in messages %}
-            <div class="notification is-success">
-                <button class="delete"></button>
+            <div class="notification is-{{ message.tags }}">
                 {{ message }}
             </div>
             {% endfor %}
@@ -156,46 +156,47 @@
 </section>
 
 <section class="section">
-  <div class="container">
-    <div class="box has-text-centered">
-      <h2 class="title is-3">Ofera-le copiilor si o experiență de neuitat la karting! 🏎️</h2>
-      <p class="subtitle is-5">
-        În cadrul inițiativei noastre de Crăciun, copiii care au trimis scrisori către Moș Crăciun vor avea ocazia să participe la o aventură de neuitat la
-        <a href="https://vmaxromexpo.ro/" target="_blank">Vmax Karting Romexpo</a>.
-      </p>
-      <p class="subtitle is-5">
-        Vom organiza o zi plină de distracție, unde copiii:
-      </p>
-      <ul class="has-text-left is-size-5" style="display: inline-block; text-align: left;">
-        <li>🏎️ Se vor întrece pe pistă și vor experimenta emoția curselor de karting.</li>
-        <li>🍔 Vor savura burgeri delicioși, pizza proaspăt preparată și băuturi răcoritoare.</li>
-        <li>🎉 Vor crea amintiri de neuitat alături de prietenii lor.</li>
-      </ul>
-      <p class="subtitle is-5 mt-4">
-        Ajutați-ne să transformăm această zi într-o experiență de vis pentru acești copii! 🙌
-      </p>
-      <a href="https://revolut.me/ionr6yt" class="button is-primary is-large mt-4">
-        Donează acum prin Revolut 📲
-      </a>
+    <div class="container">
+        <div class="box has-text-centered">
+            <h2 class="title is-3">Ofera-le copiilor si o experiență de neuitat la karting! 🏎️</h2>
+            <p class="subtitle is-5">
+                În cadrul inițiativei noastre de Crăciun, copiii care au trimis scrisori către Moș Crăciun vor avea
+                ocazia să participe la o aventură de neuitat la
+                <a href="https://vmaxromexpo.ro/" target="_blank">Vmax Karting Romexpo</a>.
+            </p>
+            <p class="subtitle is-5">
+                Vom organiza o zi plină de distracție, unde copiii:
+            </p>
+            <ul class="has-text-left is-size-5" style="display: inline-block; text-align: left;">
+                <li>🏎️ Se vor întrece pe pistă și vor experimenta emoția curselor de karting.</li>
+                <li>🍔 Vor savura burgeri delicioși, pizza proaspăt preparată și băuturi răcoritoare.</li>
+                <li>🎉 Vor crea amintiri de neuitat alături de prietenii lor.</li>
+            </ul>
+            <p class="subtitle is-5 mt-4">
+                Ajutați-ne să transformăm această zi într-o experiență de vis pentru acești copii! 🙌
+            </p>
+            <a href="https://revolut.me/ionr6yt" class="button is-primary is-large mt-4">
+                Donează acum prin Revolut 📲
+            </a>
+        </div>
     </div>
-  </div>
 </section>
 
 <!-- Footer -->
 <footer class="footer">
-  <div class="content has-text-centered">
-    <p>
-      <strong>Creat cu drag</strong> de Ion 🎅 folosind
-      <a href="https://www.djangoproject.com/" target="_blank">Django</a> 🐍,
-      <a href="https://bulma.io/" target="_blank">Bulma CSS</a> 🎨 și găzduit pe
-      <a href="https://heroku.com/" target="_blank">Heroku</a>. 🏡
-    </p>
-    <p>
-      Asistență oferită de
-      <a href="https://openai.com/chatgpt/" target="_blank">ChatGPT</a> 🤖 pentru idei creative și cod.
-    </p>
-    <p>🎄 Sărbători fericite! 🎁</p>
-  </div>
+    <div class="content has-text-centered">
+        <p>
+            <strong>Creat cu drag</strong> de Ion 🎅 folosind
+            <a href="https://www.djangoproject.com/" target="_blank">Django</a> 🐍,
+            <a href="https://bulma.io/" target="_blank">Bulma CSS</a> 🎨 și găzduit pe
+            <a href="https://heroku.com/" target="_blank">Heroku</a>. 🏡
+        </p>
+        <p>
+            Asistență oferită de
+            <a href="https://openai.com/chatgpt/" target="_blank">ChatGPT</a> 🤖 pentru idei creative și cod.
+        </p>
+        <p>🎄 Sărbători fericite! 🎁</p>
+    </div>
 </footer>
 
 <!-- JavaScript to Handle Modals -->
