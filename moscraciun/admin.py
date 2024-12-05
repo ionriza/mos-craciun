@@ -4,7 +4,7 @@ from .models import Wishing, Elf
 
 @admin.register(Wishing)
 class WishingAdmin(admin.ModelAdmin):
-    list_display = ('name', 'age', 'gender', 'status', 'created_at', 'updated_at')
+    list_display = ('id', 'first_name', 'last_name', 'age', 'gender', 'status', 'created_at', 'updated_at')
     list_filter = ('status', 'gender')
     search_fields = ('name', 'wishing_items')
     ordering = ('-created_at',)

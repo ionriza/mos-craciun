@@ -63,7 +63,8 @@
                     <div class="card-image" style="position: relative; z-index: 2;">
                         <figure class="image">
                             {% if wishing.image %}
-                            <img src="{{ wishing.image.url }}" alt="{{ wishing.name }}'s Letter">
+                            <img src="{{ wishing.image.url }}" alt="{{ wishing.first_name }}'s Letter"
+                                 class="js-modal-trigger" data-target="modal-{{ wishing.id }}">
                             {% else %}
                             <img src="https://via.placeholder.com/150" alt="Placeholder Image">
                             {% endif %}
@@ -72,7 +73,7 @@
 
                     <div class="card-content" style="position: relative; z-index: 2;">
                         <p class="title is-4">
-                            {{ wishing.name }}
+                            {{ wishing.first_name }}
                             <span class="icon">
                               {% if wishing.gender == 'M' %}
                                 👦
@@ -93,7 +94,7 @@
                     <!-- Footer with disabled button for APPLIED/CONFIRMED -->
                     <footer class="card-footer" style="position: relative; z-index: 2;">
                         <a href="#"
-                           class="card-footer-item button is-primary {% if wishing.status != 'NOT_APPLIED' %}is-disabled{% endif %} js-modal-trigger"
+                           class="card-footer-item button is-primary {% if wishing.status != 'NOT_APPLIED' %}is-disabled{% endif %} js-modal-trigger is-fullwidth"
                            data-target="modal-form-{{ wishing.id }}">
                             FII MOS CRACIUN 🎅
                         </a>
@@ -107,7 +108,7 @@
                 <div class="modal-content">
                     <figure class="image">
                         {% if wishing.image %}
-                        <img src="{{ wishing.image.url }}" alt="{{ wishing.name }}'s Letter">
+                        <img src="{{ wishing.image.url }}" alt="{{ wishing.first_name }}'s Letter">
                         {% endif %}
                     </figure>
                 </div>

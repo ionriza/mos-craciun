@@ -16,7 +16,8 @@ class Wishing(models.Model):
     ]
 
     # Fields
-    name = models.CharField(max_length=100, verbose_name="Child's Name")
+    first_name = models.CharField(max_length=50, verbose_name="Prenumele copilului")
+    last_name = models.CharField(max_length=50, null=True, blank=True, verbose_name="Numele de familie al copilului")
     age = models.PositiveIntegerField(verbose_name="Age")
     gender = models.CharField(max_length=1, choices=GENDER_CHOICES, verbose_name="Gender")
     wishing_items = models.TextField(verbose_name="Wishing Items")  # List stored as text
@@ -28,12 +29,12 @@ class Wishing(models.Model):
     updated_at = models.DateTimeField(auto_now=True)  # Automatically set on every save
 
     def __str__(self):
-        return f"{self.name} ({self.get_gender_display()} - Age {self.age})"
+        return f"{self.first_name} ({self.get_gender_display()} - Age {self.age})"
 
     class Meta:
         verbose_name = "Wishing"
         verbose_name_plural = "Wishings"
-        ordering = ['name']
+        ordering = ['first_name']
 
 
 class Elf(models.Model):
