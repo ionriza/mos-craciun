@@ -120,7 +120,7 @@
                 <div class="modal-background"></div>
                 <div class="modal-card">
                     <header class="modal-card-head">
-                        <p class="modal-card-title">Fii Mos Craciun pentru {{ wishing.name }}</p>
+                        <p class="modal-card-title">Fii Mos Craciun pentru {{ wishing.first_name }}</p>
                         <button class="delete modal-close" aria-label="close"></button>
                     </header>
                     <form action="{% url 'become_santa' wishing.id %}" method="post" class="modal-card-body">
