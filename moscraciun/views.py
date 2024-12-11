@@ -1,15 +1,26 @@
 from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib import messages
 from .models import Wishing, Elf
+from django.db.models import Case, When, Value, IntegerField
 
 
 def home(request):
-    wishings = Wishing.objects.all()  # Fetch all wishings
+    # Define custom ordering for statuses
+    wishings = Wishing.objects.annotate(
+        custom_order=Case(
+            When(status="NOT_APPLIED", then=Value(0)),
+            When(status="APPLIED", then=Value(1)),
+            When(status="CONFIRMED", then=Value(2)),
+            output_field=IntegerField(),
+        )
+    ).order_by("custom_order", "last_name", "first_name")
+
     not_applied_count = Wishing.objects.filter(status="NOT_APPLIED").count()
     for wishing in wishings:
         wishing.wishing_items_list = wishing.wishing_items.split(
             "\n"
-        )  # Preprocess the list
+        )
+
     return render(
         request,
         "home.html",
